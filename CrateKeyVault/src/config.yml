@@ -1,0 +1,49 @@
+# default config.yml for CrateKeyVault
+# config version 1.4.2
+     
+
+#MySQL Database details
+Database:
+    Mysql:
+        #MySQL server address
+        Host: 127.0.0.1
+        #MySQL server port (default 3306)
+        Port: 3306
+        #Database name (NOTE! You need to create the database, then the plugin will create the tables.)
+        DatabaseName: 'mydatabase'
+        #Table name (the plugin will auto create them)
+        TableName: 'crate_key_vault'
+        #User name
+        User: 'admin'
+        #User password
+        Password: 'cheesecake'
+    #This maintenance task runs async with a 2 min delay after the server starts.
+    RemoveInactiveUsers:
+        #Enable or disable database clean up of old accounts. | (true or false)
+        enabled: false
+        #Inactivity in days. Default 60 days.
+        inactivity: 60
+     
+
+#Plugin settings.
+Settings:
+    #Vault block location.
+    VaultLocation: 'world#0#0#0'
+    VaultTitle: '&5Crate Key Vault'
+    VaultSize: 9
+    
+
+#Chat messages with color and format codes support.
+#Minecraft Color and Format Codes: http://minecraft.gamepedia.com/Formatting_codes    
+ChatMessages:
+    NoPermission: '&4[System] &cYou don''t have permission!'
+    CmdHelp: '&4[System] &cAvailable commands:&6 /ckv reload'
+    CmdReload: '&2[System] &aConfig reload complete!'
+    CrateOpenSurvival: '&6[System] &eYou must be in survival mode to open the vault!'
+    CrateKeyOnly: '&6[System] &eOnly crate keys can be stored here!'
+    RightClick: '&6[System] &eRight Click to open the Vault!'
+    
+    
+HologramText:
+- '&5&lCrate Key Vault'
+- '&fKeep them safe!'

@@ -1,0 +1,16 @@
+name: CrateKeyVault
+main: net.craftersland.crate.CKV
+version: 1.4.2
+author: CraftersLand
+website: www.craftersland.net
+load: POSTWORLD
+depend: [HolographicDisplays, EffectLib]
+description: Crate key vaults.
+api-version: 1.13
+commands:
+    ckv:
+        description: The main command
+permissions:
+    CKV.admin:
+        description: Admin commands access
+        default: op
