@@ -2,20 +2,20 @@ package net.craftersland.crate;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class CommandHandler implements CommandExecutor {
-	
+
 	private CKV pl;
-	
+
 	public CommandHandler(CKV pl) {
 		this.pl = pl;
 	}
-	
+
 	@Override
 	public boolean onCommand(final CommandSender sender, Command command, String cmdlabel, String[] args) {
 		if (cmdlabel.equalsIgnoreCase("ckv") == true) {
@@ -45,8 +45,8 @@ public class CommandHandler implements CommandExecutor {
 						sender.sendMessage(pl.getConfigHandler().getStringWithColor("ChatMessages.CmdForPlayer"));
 						return true;
 					}
-					Player p = (Player)sender;
-					
+					Player p = (Player) sender;
+
 					if (sender.hasPermission("CKV.open") == false) {
 						pl.getSoundHandler().sendFailedSound(p);
 						p.sendMessage(pl.getConfigHandler().getStringWithColor("ChatMessages.NoPermission"));
@@ -57,23 +57,11 @@ public class CommandHandler implements CommandExecutor {
 							p.sendMessage(pl.getConfigHandler().getStringWithColor("ChatMessages.CrateOpenSurvival"));
 							return true;
 						}
-						Player target = Bukkit.getServer().getPlayer(args[1]);
-						if(target == null) {
-							@SuppressWarnings("deprecation")
-							OfflinePlayer offlineTarget = Bukkit.getServer().getOfflinePlayer(args[1]);
-							if(offlineTarget != null && pl.getStorageHandler().hasAccount(pl.getMysqlSetup().getConnection(), offlineTarget.getUniqueId()) == true)
-								pl.getVaultHandler().openVault(p,offlineTarget.getUniqueId());
-							else {
-								pl.getSoundHandler().sendFailedSound(p);
-								p.sendMessage(pl.getConfigHandler().getStringWithColor("ChatMessages.CmdInvalidPlayer"));
+						Bukkit.getScheduler().runTask((Plugin) this.pl, new Runnable() {
+							public void run() {
+								pl.getVaultHandler().adminOpenVault(p, args[1]);
 							}
-							return true;
-						}
-						if(target.getName().equals(p.getName())) {
-							pl.getSoundHandler().sendFailedSound(p);
-							p.sendMessage(pl.getConfigHandler().getStringWithColor("ChatMessages.CmdSamePlayer"));
-						} else
-							pl.getVaultHandler().openVault(p,target.getUniqueId());
+						});
 					}
 				} else {
 					if (sender instanceof Player) {
