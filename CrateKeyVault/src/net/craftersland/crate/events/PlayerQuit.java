@@ -17,6 +17,7 @@ public class PlayerQuit implements Listener {
 	
 	@EventHandler
 	public void onPlayerDisconnect(final PlayerQuitEvent event) {
+		pl.getVaultHandler().removeFromCheckingVaultList(event.getPlayer());
 		Bukkit.getScheduler().runTaskAsynchronously(pl, new Runnable() {
 
 			@Override

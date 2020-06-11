@@ -9,13 +9,13 @@ import java.util.UUID;
 import net.craftersland.crate.CKV;
 
 public class StorageHandler {
-	
+
 	private CKV pl;
-	
+
 	public StorageHandler(CKV pl) {
 		this.pl = pl;
 	}
-	
+
 	public boolean setData(Connection conn, UUID playerUUID, String playerName, String vault) {
 		if (!hasAccount(conn, playerUUID)) {
 			createAccount(conn, playerUUID, playerName);
@@ -44,96 +44,149 @@ public class StorageHandler {
 				}
 			}
 		}
-        return false;
+		return false;
 	}
-	
+
 	public String getData(Connection conn, UUID playerUUID) {
 		PreparedStatement preparedUpdateStatement = null;
 		ResultSet result = null;
 		if (conn != null) {
 			try {
 				String sql = "SELECT `vault` FROM `" + pl.getConfigHandler().getString("Database.Mysql.TableName") + "` WHERE `player_uuid` = ? LIMIT 1";
-		        preparedUpdateStatement = conn.prepareStatement(sql);
-		        preparedUpdateStatement.setString(1, playerUUID.toString());
-		        result = preparedUpdateStatement.executeQuery();
-		        while (result.next()) {
-		        	return result.getString("vault");
-		        }
-		    } catch (SQLException e) {
-		    	CKV.log.warning("Error: " + e.getMessage());
+				preparedUpdateStatement = conn.prepareStatement(sql);
+				preparedUpdateStatement.setString(1, playerUUID.toString());
+				result = preparedUpdateStatement.executeQuery();
+				while (result.next()) {
+					return result.getString("vault");
+				}
+			} catch (SQLException e) {
+				CKV.log.warning("Error: " + e.getMessage());
 				e.printStackTrace();
-		    } finally {
-		    	try {
-		    		if (result != null) {
-		    			result.close();
-		    		}
-		    		if (preparedUpdateStatement != null) {
-		    			preparedUpdateStatement.close();
-		    		}
-		    	} catch (Exception e) {
-		    		e.printStackTrace();
-		    	}
-		    }
+			} finally {
+				try {
+					if (result != null) {
+						result.close();
+					}
+					if (preparedUpdateStatement != null) {
+						preparedUpdateStatement.close();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return null;
 	}
-	
+
 	public boolean createAccount(Connection conn, UUID playerUUID, String playerName) {
 		PreparedStatement preparedStatement = null;
 		if (conn != null) {
 			try {
 				String sql = "INSERT INTO `" + pl.getConfigHandler().getString("Database.Mysql.TableName") + "`(`player_uuid`, `player_name`, `vault`, `last_seen`) " + "VALUES(?, ?, ?, ?)";
-		        preparedStatement = conn.prepareStatement(sql);
-		        preparedStatement.setString(1, playerUUID.toString());
-		        preparedStatement.setString(2, playerName);
-		        preparedStatement.setString(3, "none");
-		        preparedStatement.setString(4, String.valueOf(System.currentTimeMillis()));
-		        preparedStatement.executeUpdate();
-		        return true;
-		      } catch (SQLException e) {
-		    	  CKV.log.warning("Error: " + e.getMessage());
-				  e.printStackTrace();
-		      } finally {
-		    	  try {
-		    		  if (preparedStatement != null) {
-		    			  preparedStatement.close();
-		    		  }
-		    	  } catch (Exception e) {
-		    		  e.printStackTrace();
-		    	  }
-		      }
+				preparedStatement = conn.prepareStatement(sql);
+				preparedStatement.setString(1, playerUUID.toString());
+				preparedStatement.setString(2, playerName);
+				preparedStatement.setString(3, "none");
+				preparedStatement.setString(4, String.valueOf(System.currentTimeMillis()));
+				preparedStatement.executeUpdate();
+				return true;
+			} catch (SQLException e) {
+				CKV.log.warning("Error: " + e.getMessage());
+				e.printStackTrace();
+			} finally {
+				try {
+					if (preparedStatement != null) {
+						preparedStatement.close();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return false;
 	}
-	
+
+	public String getPlayerUUID(Connection conn, String playerName) {
+		PreparedStatement preparedUpdateStatement = null;
+		ResultSet result = null;
+		if (conn != null)
+			try {
+				String sql = "SELECT `player_uuid` FROM `" + pl.getConfigHandler().getString("Database.Mysql.TableName") + "` WHERE `player_name` = ? LIMIT 1";
+				preparedUpdateStatement = conn.prepareStatement(sql);
+				preparedUpdateStatement.setString(1, playerName);
+				result = preparedUpdateStatement.executeQuery();
+				if (result.next())
+					return result.getString("player_uuid");
+			} catch (SQLException e) {
+				CKV.log.warning("Error: " + e.getMessage());
+				e.printStackTrace();
+			} finally {
+				try {
+					if (result != null)
+						result.close();
+					if (preparedUpdateStatement != null)
+						preparedUpdateStatement.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		return null;
+	}
+
 	public boolean hasAccount(Connection conn, UUID playerUUID) {
 		PreparedStatement preparedUpdateStatement = null;
 		ResultSet result = null;
 		if (conn != null) {
 			try {
-		        String sql = "SELECT `player_uuid` FROM `" + pl.getConfigHandler().getString("Database.Mysql.TableName") + "` WHERE `player_uuid` = ? LIMIT 1";
-		        preparedUpdateStatement = conn.prepareStatement(sql);
-		        preparedUpdateStatement.setString(1, playerUUID.toString());
-		        
-		        result = preparedUpdateStatement.executeQuery();
-		        while (result.next()) {
-		        	return true;
-		        }
-		      } catch (SQLException e) {
-		    	  CKV.log.warning("Error: " + e.getMessage());
-		      } finally {
-		    	  try {
-		    		  if (result != null) {
-		    			  result.close();
-		    		  }
-		    		  if (preparedUpdateStatement != null) {
-		    			  preparedUpdateStatement.close();
-		    		  }
-		    	  } catch (Exception e) {
-		    		  e.printStackTrace();
-		    	  }
-		      }
+				String sql = "SELECT `player_uuid` FROM `" + pl.getConfigHandler().getString("Database.Mysql.TableName") + "` WHERE `player_uuid` = ? LIMIT 1";
+				preparedUpdateStatement = conn.prepareStatement(sql);
+				preparedUpdateStatement.setString(1, playerUUID.toString());
+
+				result = preparedUpdateStatement.executeQuery();
+				while (result.next()) {
+					return true;
+				}
+			} catch (SQLException e) {
+				CKV.log.warning("Error: " + e.getMessage());
+			} finally {
+				try {
+					if (result != null) {
+						result.close();
+					}
+					if (preparedUpdateStatement != null) {
+						preparedUpdateStatement.close();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
+		return false;
+	}
+
+	public boolean hasAccount(Connection conn, String playerName) {
+		PreparedStatement preparedUpdateStatement = null;
+		ResultSet result = null;
+		if (conn != null)
+			try {
+				String sql = "SELECT `player_name` FROM `" + pl.getConfigHandler().getString("Database.Mysql.TableName") + "` WHERE `player_name` = ? LIMIT 1";
+				preparedUpdateStatement = conn.prepareStatement(sql);
+				preparedUpdateStatement.setString(1, playerName);
+				result = preparedUpdateStatement.executeQuery();
+				if (result.next())
+					return true;
+			} catch (SQLException e) {
+				CKV.log.warning("Error: " + e.getMessage());
+			} finally {
+				try {
+					if (result != null)
+						result.close();
+					if (preparedUpdateStatement != null)
+						preparedUpdateStatement.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		return false;
 	}
 

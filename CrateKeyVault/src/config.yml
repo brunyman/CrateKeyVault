@@ -37,11 +37,14 @@ Settings:
 #Minecraft Color and Format Codes: http://minecraft.gamepedia.com/Formatting_codes    
 ChatMessages:
     NoPermission: '&4[System] &cYou don''t have permission!'
-    CmdHelp: '&4[System] &cAvailable commands:&6 /ckv reload'
+    CmdHelp: '&4[System] &cAvailable commands:&6 /ckv reload &c, &6 /ckv open <player>'
     CmdReload: '&2[System] &aConfig reload complete!'
     CrateOpenSurvival: '&6[System] &eYou must be in survival mode to open the vault!'
     CrateKeyOnly: '&6[System] &eOnly crate keys can be stored here!'
     RightClick: '&6[System] &eRight Click to open the Vault!'
+    CmdForPlayer: '&4[System] &cYou must be a player to perform this command.'
+    CmdInvalidPlayer: '&4[System] &cThere is no player in the database with this name!'
+    CmdSamePlayer: '&4[System] &cYou can''t open your own key vault!'
     
     
 HologramText:
