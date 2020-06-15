@@ -16,7 +16,7 @@ public class InventoryDrag implements Listener {
 	
 	@EventHandler
 	public void onInvInteract(InventoryDragEvent event) {
-		if (event.getView().getTitle().matches(pl.getConfigHandler().getStringWithColor("Settings.VaultTitle")) == true) {
+		if (event.getView().getTitle().matches(pl.getConfigHandler().getStringWithColor("Settings.VaultTitle")) == true || pl.getVaultHandler().getCheckingVaultList().contains((Player) event.getWhoClicked())) {
 			event.setCancelled(true);
 		}
 	}

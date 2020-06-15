@@ -1,6 +1,6 @@
 name: CrateKeyVault
 main: net.craftersland.crate.CKV
-version: 1.4.2
+version: 1.4.3
 author: CraftersLand
 website: www.craftersland.net
 load: POSTWORLD
@@ -13,4 +13,7 @@ commands:
 permissions:
     CKV.admin:
         description: Admin commands access
+        default: op
+    CKV.open:
+        description: Admin commands to access other player vault.
         default: op

@@ -21,7 +21,7 @@ public class InventoryInteract implements Listener {
 	public void onInvInteract(InventoryClickEvent event) {
 		if (event.getClickedInventory() != null) {
 			if (event.getWhoClicked().getGameMode() != GameMode.CREATIVE) {
-				if (event.getView().getTitle().matches(pl.getConfigHandler().getStringWithColor("Settings.VaultTitle")) == true) {
+				if (event.getView().getTitle().matches(pl.getConfigHandler().getStringWithColor("Settings.VaultTitle")) == true || pl.getVaultHandler().getCheckingVaultList().contains((Player) event.getWhoClicked())) {
 					Player p = (Player) event.getWhoClicked();
 					
 					if (event.isShiftClick() == true) {
