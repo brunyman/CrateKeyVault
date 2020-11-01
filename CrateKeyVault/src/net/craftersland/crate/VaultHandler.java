@@ -164,7 +164,7 @@ public class VaultHandler {
 					pl.getSoundHandler().sendFailedSound(admin);
 				}
 			} else {
-				Inventory inv = Bukkit.getServer().createInventory((InventoryHolder) admin, pl.getConfigHandler().getInteger("Settings.VaultSize"), targetPlayer.toString());
+				Inventory inv = Bukkit.getServer().createInventory((InventoryHolder) admin, pl.getConfigHandler().getInteger("Settings.VaultSize"), targetPlayer.getUniqueId().toString());
 				inv.setContents(DataSerializer.itemsFromBase64(pl.getStorageHandler().getData(pl.getMysqlSetup().getConnection(), targetPlayer.getUniqueId())));
 				admin.openInventory(inv);
 				pl.getSoundHandler().sendOpenedChestSound(admin);
