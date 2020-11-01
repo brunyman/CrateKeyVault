@@ -16,6 +16,7 @@ import net.craftersland.crate.storage.StorageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -65,7 +66,18 @@ public class CKV extends JavaPlugin {
     public void onDisable() {
 		if (Bukkit.getOnlinePlayers().isEmpty() == false) {
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				p.kickPlayer("Server is restarting...");
+				if (p.getOpenInventory() != null) {
+					InventoryView iv = p.getOpenInventory();
+					if (iv.getTitle().matches(getConfigHandler().getStringWithColor("Settings.VaultTitle"))) {
+						getVaultHandler().updateCrateOnDisconnect(p, iv.getTopInventory());
+						p.closeInventory();
+						getVaultHandler().removeFromCheckingVaultList(p);
+						getVaultHandler().saveDataOnDisconnect(p);
+						getVaultHandler().unloadData(p);
+						log.info("Saved player " + p.getName() +  " crate key vault in a server restart.");
+						p.kickPlayer("Server is restarting...");
+					}
+				}
 			}
 			wait(5);
 		}
