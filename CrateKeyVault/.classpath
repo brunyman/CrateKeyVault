@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/DATA/ServerWorkspace/Spigot/Plugins/1.14.4/EffectLib-6.2.jar"/>
 	<classpathentry kind="lib" path="C:/DATA/ServerWorkspace/Spigot/Plugins/1.14.4/HolographicDisplays-2.4.0.jar"/>
-	<classpathentry kind="lib" path="C:/DATA/ServerWorkspace/Spigot/Server/spigot-1.15.1.jar"/>
+	<classpathentry kind="lib" path="C:/DATA/ServerWorkspace/Spigot/Server/spigot-1.16.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

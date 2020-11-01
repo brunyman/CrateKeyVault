@@ -108,6 +108,14 @@ public class VaultHandler {
 		pl.getSoundHandler().sendOpenedChestSound(opener);
 		checkingVault.add(opener);
 	}
+	
+	public void updateCrateOnDisconnect(Player p, Inventory inv) {
+		data.put(p.getUniqueId(), inv);
+	}
+	
+	public void saveDataOnDisconnect(Player p) {
+		pl.getStorageHandler().setData(pl.getMysqlSetup().getConnection(), p.getUniqueId(), p.getName(), DataSerializer.itemsToBase64(data.get(p.getUniqueId()).getContents()));
+	}
 
 	public void saveData(Player p, Inventory inv) {
 		data.put(p.getUniqueId(), inv);

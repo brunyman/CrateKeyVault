@@ -14,6 +14,7 @@ import net.craftersland.crate.storage.MysqlSetup;
 import net.craftersland.crate.storage.StorageHandler;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +24,7 @@ import de.slikey.effectlib.EffectManager;
 public class CKV extends JavaPlugin {
 	
 	public static Logger log;
-	public static String pluginName = "CrateKeyVault";
+	//public static String pluginName = "CrateKeyVault";
 	public static boolean oldSounds = false;
 	
 	private static ConfigHandler cH;
@@ -32,10 +33,12 @@ public class CKV extends JavaPlugin {
 	private static StorageHandler stH;
 	private static VaultHandler vH;
 	private static EffectManager em;
+	private static CKV instance;
 	
 	@Override
     public void onEnable() {
 		log = getLogger();
+		instance = this;
 		checkServerVersion();
 		cH = new ConfigHandler(this);
 		sH = new SoundHandler(this);
@@ -55,16 +58,34 @@ public class CKV extends JavaPlugin {
 		CommandHandler cH = new CommandHandler(this);
     	getCommand("ckv").setExecutor(cH);
     	vH.createHologram();
-		log.info(pluginName + " loaded successfully!");
+		log.info(instance.getDescription().getName() + " loaded successfully!");
 	}
 	
 	@Override
     public void onDisable() {
+		if (Bukkit.getOnlinePlayers().isEmpty() == false) {
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				p.kickPlayer("Server is restarting...");
+			}
+			wait(5);
+		}
 		vH.deleteHologram();
 		Bukkit.getScheduler().cancelTasks(this);
 		HandlerList.unregisterAll(this);
 		ms.closeConnection();
-		log.info(pluginName + " is disabled!");
+		log.info(instance.getDescription().getName() + " is disabled!");
+	}
+	
+	public static void wait(int sec) {
+	    try {
+	        Thread.sleep(sec * 1000);
+	    } catch(InterruptedException ex) {
+	        Thread.currentThread().interrupt();
+	    }
+	}
+	
+	public CKV getInstance() {
+		return instance;
 	}
 	
 	private void checkServerVersion() {

@@ -30,11 +30,11 @@ public class ConfigHandler {
 	}
 	
 	public void loadConfig() {
-		File pluginFolder = new File("plugins" + System.getProperty("file.separator") + CKV.pluginName);
+		File pluginFolder = new File("plugins" + System.getProperty("file.separator") + plugin.getInstance().getDescription().getName());
 		if (pluginFolder.exists() == false) {
     		pluginFolder.mkdir();
     	}
-		File configFile = new File("plugins" + System.getProperty("file.separator") + CKV.pluginName + System.getProperty("file.separator") + "config.yml");
+		File configFile = new File("plugins" + System.getProperty("file.separator") + plugin.getInstance().getDescription().getName() + System.getProperty("file.separator") + "config.yml");
 		if (configFile.exists() == false) {
 			CKV.log.info("No config file found! Creating new one...");
 			plugin.saveDefaultConfig();
@@ -51,7 +51,7 @@ public class ConfigHandler {
 	
 	public String getStringWithColor(String key) {
 		if (!plugin.getConfig().contains(key)) {
-			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + CKV.pluginName + " folder! (Try generating a new one by deleting the current)");
+			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + plugin.getInstance().getDescription().getName() + " folder! (Try generating a new one by deleting the current)");
 			return "errorCouldNotLocateInConfigYml:" + key;
 		} else {
 			return plugin.getConfig().getString(key).replaceAll("&", "§");
@@ -60,7 +60,7 @@ public class ConfigHandler {
 	
 	public String getString(String key) {
 		if (!plugin.getConfig().contains(key)) {
-			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + CKV.pluginName + " folder! (Try generating a new one by deleting the current)");
+			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + plugin.getInstance().getDescription().getName() + " folder! (Try generating a new one by deleting the current)");
 			return "errorCouldNotLocateInConfigYml:" + key;
 		} else {
 			return plugin.getConfig().getString(key);
@@ -69,7 +69,7 @@ public class ConfigHandler {
 	
 	public List<String> getStringList(String key) {
 		if (!plugin.getConfig().contains(key)) {
-			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + CKV.pluginName + " folder! (Try generating a new one by deleting the current)");
+			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + plugin.getInstance().getDescription().getName() + " folder! (Try generating a new one by deleting the current)");
 			return null;
 		} else {
 			return plugin.getConfig().getStringList(key);
@@ -78,7 +78,7 @@ public class ConfigHandler {
 	
 	public boolean getBoolean(String key) {
 		if (!plugin.getConfig().contains(key)) {
-			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + CKV.pluginName + " folder! (Try generating a new one by deleting the current)");
+			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + plugin.getInstance().getDescription().getName() + " folder! (Try generating a new one by deleting the current)");
 			return false;
 		} else {
 			return plugin.getConfig().getBoolean(key);
@@ -87,7 +87,7 @@ public class ConfigHandler {
 	
 	public double getDouble(String key) {
 		if (!plugin.getConfig().contains(key)) {
-			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + CKV.pluginName + " folder! (Try generating a new one by deleting the current)");
+			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + plugin.getInstance().getDescription().getName() + " folder! (Try generating a new one by deleting the current)");
 			return 0.0;
 		} else {
 			return plugin.getConfig().getDouble(key);
@@ -96,7 +96,7 @@ public class ConfigHandler {
 	
 	public int getInteger(String key) {
 		if (!plugin.getConfig().contains(key)) {
-			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + CKV.pluginName + " folder! (Try generating a new one by deleting the current)");
+			plugin.getLogger().severe("Could not locate " + key + " in the config.yml inside of the " + plugin.getInstance().getDescription().getName() + " folder! (Try generating a new one by deleting the current)");
 			return 0;
 		} else {
 			return plugin.getConfig().getInt(key);
